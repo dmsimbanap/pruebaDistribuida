@@ -1,0 +1,73 @@
+package com.programacion.rest;
+
+import com.programacion.db.book;
+import com.programacion.servicios.ServicioBook;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+import java.util.List;
+
+
+/*
+ * GET / - listar todos los books
+ * GET /books/{id} - buscar un books
+ * DELETE /books{id} - eliminar un books
+ * POST /books - crear un nuevo books
+ * PUT /books/{id} - actualizar un books
+ */
+
+@Path("/books")
+@ApplicationScoped
+public class RestAlbum {
+    @Inject
+    ServicioBook servicio;
+
+    /* GET: /albums - listar todos los books*/
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<book> findAll(){
+        return servicio.findAll();
+    }
+
+    /* GET: /books/{id} - buscar un books */
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public book findById(@PathParam("id") Integer id) {
+        book obj = servicio.findById(id);
+        if (obj == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return obj;
+    }
+
+    /* POST: /books - crear un nuevo books */
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response create(book obj) {
+        servicio.create(obj);
+        return Response.status(Response.Status.CREATED).build();
+    }
+
+    /* PUT: /books/{id} - actualizar un books*/
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response update(@PathParam("id") Integer id, book obj) {
+        servicio.update(id, obj);
+        return Response.status(Response.Status.OK).build();
+    }
+
+    /* DELETE: /books{id} - eliminar un books*/
+    @DELETE
+    @Path("/{id}")
+    public Response delete(@PathParam("id") Integer id) {
+        servicio.delete(id);
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
+}

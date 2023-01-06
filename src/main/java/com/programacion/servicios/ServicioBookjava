@@ -1,0 +1,19 @@
+package com.programacion.servicios;
+
+
+import com.programacion.db.book;
+
+import java.util.List;
+
+public interface ServicioBook {
+
+   List<book> findAll();
+
+   void create(book obj);
+
+   void findById(Integer id);
+
+   void delete(Integer id);
+
+   void update(Integer id, book obj);
+}

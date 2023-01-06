@@ -1,0 +1,9 @@
+db:
+  source: jdbc
+  connection:
+    url: jdbc:postgresql://127.0.0.1:5432/basededatosditribuida
+    username: postgres
+    password: 1234
+    poolName: hikariPool
+    initializationFailTimeout: -1
+    connectionTimeout: 2000
